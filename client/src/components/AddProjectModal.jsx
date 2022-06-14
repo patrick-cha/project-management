@@ -11,16 +11,16 @@ export default function AddClientModal() {
     const [clientId, setClientId] = useState('')
     const [status, setStatus] = useState('new')
 
-  const [addProject] = useMutation(ADD_PROJECT, {
-    variables: { name, description, clientId, status },
-    update(cache, { data: { addProject } }) {
-      const { projects } = cache.readQuery({ query: GET_PROJECTS })
-      cache.writeQuery({
-        query: GET_PROJECTS,
-        data: { projects: [...projects, addProject] },
-      })
-    }
-  })
+    const [addProject] = useMutation(ADD_PROJECT, {
+      variables: { name, description, clientId, status },
+      update(cache, { data: { addProject } }) {
+        const { projects } = cache.readQuery({ query: GET_PROJECTS });
+        cache.writeQuery({
+          query: GET_PROJECTS,
+          data: { projects: [...projects, addProject] },
+        });
+      },
+    });
 
   // Get Clients for select
   const {loading, error, data} = useQuery(GET_CLIENTS)
@@ -32,7 +32,7 @@ export default function AddClientModal() {
           return alert('Please fill in all fields')
       }
 
-      addProject(name, description, clientId, status)
+      addProject(name, description, clientId, status);
 
       setName('')
       setDescription('')
@@ -82,9 +82,9 @@ export default function AddClientModal() {
                   <div className="mb-3">
                     <label className="form-label">Client</label>
                     <select id="clientId" className="form-select" value={clientId} onChange={(e) => setClientId(e.target.value)}>
-                      <option value="">Select Client</option>
+                      <option value=''>Select Client</option>
                       { data.clients.map((client) => (
-                        <option key={client.id} value="client.id">{client.name}</option>
+                        <option key={client.id} value={client.id}>{client.name}</option>
                       )) }
                     </select>
                   </div>
